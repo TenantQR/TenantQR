@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TenantQR | 15103 95 St NW Portal</title>
+  <title>TenantQR | Multi-Property Portal & Sticker Studio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @media print {
@@ -27,37 +27,36 @@
   <!-- Header & Navigation -->
   <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50 no-print">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('tenant')">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="switchView('tenant')">
         <div class="bg-indigo-600 text-white font-bold p-1.5 rounded-lg text-sm tracking-wide">TQR</div>
         <span class="font-semibold text-lg tracking-tight">TenantQR</span>
       </div>
       <div class="flex gap-2 text-xs font-medium">
-        <button onclick="switchTab('tenant')" id="btn-tenant" class="px-3 py-1.5 rounded-md bg-indigo-600 text-white">Tenant Portal</button>
-        <button onclick="switchTab('landlord')" id="btn-landlord" class="px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700">Landlord & Print Studio</button>
+        <button onclick="switchView('tenant')" id="btn-view-tenant" class="px-3 py-1.5 rounded-md bg-indigo-600 text-white">Tenant Portal</button>
+        <button onclick="switchView('studio')" id="btn-view-studio" class="px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700">Print Studio</button>
       </div>
     </div>
   </header>
 
   <main class="max-w-7xl mx-auto px-4 py-6">
 
-    <!-- 1. TENANT PORTAL VIEW -->
+    <!-- 1. DYNAMIC TENANT PORTAL VIEW -->
     <section id="view-tenant" class="space-y-6">
       <div class="max-w-md mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl">
         
-        <!-- Unit Selector -->
+        <!-- Unit Selector Dropdown / Pills -->
         <div class="mb-4 text-center">
-          <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Select Your Unit</label>
-          <div class="inline-flex rounded-lg bg-slate-900 p-1 border border-slate-700">
-            <button id="tab-main" onclick="selectUnit('main')" class="px-3 py-1 text-xs font-semibold rounded-md bg-indigo-600 text-white transition">Main Floor</button>
-            <button id="tab-base" onclick="selectUnit('basement')" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-400 hover:text-white transition">Basement Suite</button>
-          </div>
+          <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Active Property & Unit</label>
+          <select id="tenant-unit-select" onchange="loadTenantUnit(this.value)" class="bg-slate-900 border border-slate-700 text-xs text-white rounded-lg px-3 py-1.5 focus:outline-none focus:border-indigo-500">
+            <!-- Dynamically populated -->
+          </select>
         </div>
 
         <!-- Property Title Banner -->
         <div class="text-center pb-4 border-b border-slate-700">
-          <span class="text-[10px] uppercase font-bold text-indigo-400 tracking-wider">Digital Tenant Guide</span>
-          <h1 class="text-xl font-bold text-white mt-1">15103 95 St NW</h1>
-          <p id="tenant-unit-display" class="text-xs text-slate-400">Edmonton, AB • Main Floor Suite</p>
+          <span class="text-[10px] uppercase font-bold text-indigo-400 tracking-wider">Digital Tenant Manual</span>
+          <h1 id="portal-address" class="text-xl font-bold text-white mt-1">15103 95 St NW</h1>
+          <p id="portal-unit-name" class="text-xs text-slate-400">Edmonton, AB • Main Floor Suite</p>
         </div>
 
         <!-- Emergency Shutoffs Section -->
@@ -67,7 +66,7 @@
           <div class="p-3 bg-red-950/40 border border-red-800/60 rounded-xl flex justify-between items-center">
             <div>
               <p class="text-xs font-bold text-red-200">Main Water Shutoff</p>
-              <p class="text-xs text-red-300/80">Located in basement bedroom closet</p>
+              <p id="portal-water" class="text-xs text-red-300/80">Basement bedroom closet</p>
             </div>
             <span class="text-[10px] bg-red-800/80 text-red-100 px-2 py-0.5 rounded font-mono">VALVE</span>
           </div>
@@ -75,7 +74,7 @@
           <div class="p-3 bg-amber-950/40 border border-amber-800/60 rounded-xl flex justify-between items-center">
             <div>
               <p class="text-xs font-bold text-amber-200">Electrical Breaker Panel</p>
-              <p class="text-xs text-amber-300/80">Located in basement bedroom</p>
+              <p id="portal-breaker" class="text-xs text-amber-300/80">Basement hallway</p>
             </div>
             <span class="text-[10px] bg-amber-800/80 text-amber-100 px-2 py-0.5 rounded font-mono">PANEL</span>
           </div>
@@ -85,13 +84,13 @@
         <div class="mt-4 grid grid-cols-2 gap-3">
           <div class="p-3 bg-slate-900/60 border border-slate-700 rounded-xl">
             <p class="text-[10px] uppercase font-bold text-slate-400">Garbage Pickup</p>
-            <p class="text-xs font-bold text-white mt-0.5">Every Thursday</p>
-            <p class="text-[10px] text-slate-400 mt-0.5">Roll carts out Wednesday evening</p>
+            <p id="portal-garbage" class="text-xs font-bold text-white mt-0.5">Every Thursday</p>
+            <p class="text-[10px] text-slate-400 mt-0.5">Roll carts out evening prior</p>
           </div>
           <div class="p-3 bg-slate-900/60 border border-slate-700 rounded-xl">
             <p class="text-[10px] uppercase font-bold text-slate-400">Furnace Filter Size</p>
-            <p class="text-xs font-bold text-indigo-300 mt-0.5">16 x 25 x 1 in</p>
-            <p class="text-[10px] text-slate-400 mt-0.5">Shared filter access</p>
+            <p id="portal-filter" class="text-xs font-bold text-indigo-300 mt-0.5">16 x 25 x 1 in</p>
+            <p class="text-[10px] text-slate-400 mt-0.5">Filter location in utility room</p>
           </div>
         </div>
 
@@ -99,8 +98,8 @@
         <div class="mt-5 pt-4 border-t border-slate-700">
           <h2 class="text-xs font-bold text-white mb-2 uppercase tracking-wide">Submit Maintenance Request</h2>
           <form onsubmit="submitTicket(event)" class="space-y-2.5">
-            <input type="text" placeholder="Your Name & Phone Number" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
-            <textarea placeholder="Describe the maintenance issue..." rows="3" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"></textarea>
+            <input type="text" name="tenant_contact" placeholder="Your Name & Phone Number" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+            <textarea name="ticket_message" placeholder="Describe the maintenance issue..." rows="3" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"></textarea>
             <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-lg text-xs transition shadow-md shadow-indigo-600/20">Send Request to Landlord</button>
           </form>
         </div>
@@ -108,38 +107,39 @@
       </div>
     </section>
 
-    <!-- 2. LANDLORD STICKER PRINT STUDIO -->
-    <section id="view-landlord" class="hidden space-y-6">
+    <!-- 2. DYNAMIC QR STICKER PRINT STUDIO -->
+    <section id="view-studio" class="hidden space-y-6">
       <div class="max-w-xl mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl space-y-6">
         <div>
-          <h2 class="text-lg font-bold text-white">🖨️ Printable QR Sticker Studio</h2>
-          <p class="text-xs text-slate-400">Print custom QR sticker cards with direct unit links for 15103 95 St NW.</p>
+          <h2 class="text-lg font-bold text-white">🖨️ Dynamic QR Sticker Studio</h2>
+          <p class="text-xs text-slate-400">Select any unit to dynamically generate printable QR sticker cards targeting custom URLs.</p>
         </div>
 
-        <!-- Selection for which sticker to print -->
-        <div class="flex gap-2 border-b border-slate-700 pb-4">
-          <button id="print-tab-main" onclick="setPrintUnit('Main Floor Suite', 'main')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">Main Floor Sticker</button>
-          <button id="print-tab-base" onclick="setPrintUnit('Basement Suite', 'basement')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300">Basement Suite Sticker</button>
+        <!-- Unit Selector for Printing -->
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1 uppercase">Select Property Unit to Print</label>
+          <select id="studio-unit-select" onchange="updateStickerPreview(this.value)" class="w-full bg-slate-900 border border-slate-700 text-xs text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-indigo-500">
+            <!-- Dynamically populated -->
+          </select>
         </div>
 
         <!-- Printable Card Preview -->
         <div id="printable-sticker" class="bg-white text-slate-900 p-6 rounded-2xl border-4 border-slate-900 text-center space-y-3 shadow-lg max-w-sm mx-auto">
           <div class="border-b border-slate-200 pb-2">
             <p class="text-[11px] font-black uppercase tracking-widest text-indigo-600">TENANT PROPERTY GUIDE</p>
-            <p class="text-base font-black text-slate-900 mt-0.5">15103 95 St NW</p>
+            <p id="sticker-address" class="text-base font-black text-slate-900 mt-0.5">15103 95 St NW</p>
             <p id="sticker-unit-label" class="text-xs font-bold text-slate-600">Main Floor Suite</p>
           </div>
 
           <div class="py-2">
-            <!-- QR code dynamically changes based on selected print unit -->
             <img id="sticker-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://tenantqr.ca?unit=main" alt="TenantQR Code" class="w-36 h-36 mx-auto rounded-lg border border-slate-200 p-1 shadow-sm">
             <p class="text-[10px] font-bold text-slate-500 mt-2">SCAN WITH PHONE CAMERA</p>
           </div>
 
           <div class="bg-slate-100 p-2.5 rounded-xl text-left text-[10px] space-y-1 text-slate-700 font-medium">
-            <p>• <strong>Furnace Filter:</strong> 16 x 25 x 1 in</p>
-            <p>• <strong>Garbage Day:</strong> Every Thursday</p>
-            <p>• <strong>Water / Breaker:</strong> Basement Bedroom</p>
+            <p>• <strong>Furnace Filter:</strong> <span id="sticker-filter">16 x 25 x 1 in</span></p>
+            <p>• <strong>Garbage Day:</strong> <span id="sticker-garbage">Every Thursday</span></p>
+            <p>• <strong>Water Valve:</strong> <span id="sticker-water">Basement bedroom closet</span></p>
           </div>
 
           <p class="text-[9px] text-slate-400 font-semibold tracking-wider uppercase pt-1">Powered by tenantqr.ca</p>
@@ -154,72 +154,107 @@
   </main>
 
   <script>
-    // Automatically select the correct unit if loaded via ?unit= parameter
+    // Database / Store of Units
+    const unitsDatabase = {
+      'main': {
+        address: '15103 95 St NW',
+        unitName: 'Main Floor Suite',
+        garbage: 'Every Thursday',
+        filter: '16 x 25 x 1 in',
+        water: 'Basement bedroom closet',
+        breaker: 'Basement hallway'
+      },
+      'basement': {
+        address: '15103 95 St NW',
+        unitName: 'Basement Suite',
+        garbage: 'Every Thursday',
+        filter: '16 x 25 x 1 in',
+        water: 'Basement bedroom closet',
+        breaker: 'Basement hallway'
+      }
+    };
+
+    // Initialize Application
     window.addEventListener('DOMContentLoaded', () => {
+      populateDropdowns();
+
+      // Detect ?unit= URL Parameter
       const urlParams = new URLSearchParams(window.location.search);
-      const unit = urlParams.get('unit');
-      if (unit === 'basement') {
-        selectUnit('basement');
+      const requestedUnit = urlParams.get('unit');
+
+      if (requestedUnit && unitsDatabase[requestedUnit]) {
+        loadTenantUnit(requestedUnit);
       } else {
-        selectUnit('main');
+        loadTenantUnit('main');
       }
     });
 
-    // Tab Navigation
-    function switchTab(tab) {
-      document.getElementById('view-tenant').classList.add('hidden');
-      document.getElementById('view-landlord').classList.add('hidden');
+    function populateDropdowns() {
+      const tenantSelect = document.getElementById('tenant-unit-select');
+      const studioSelect = document.getElementById('studio-unit-select');
 
-      document.getElementById('btn-tenant').className = 'px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700';
-      document.getElementById('btn-landlord').className = 'px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700';
+      tenantSelect.innerHTML = '';
+      studioSelect.innerHTML = '';
 
-      if (tab === 'tenant') {
-        document.getElementById('view-tenant').classList.remove('hidden');
-        document.getElementById('btn-tenant').className = 'px-3 py-1.5 rounded-md bg-indigo-600 text-white';
-      } else {
-        document.getElementById('view-landlord').classList.remove('hidden');
-        document.getElementById('btn-landlord').className = 'px-3 py-1.5 rounded-md bg-indigo-600 text-white';
-      }
+      Object.keys(unitsDatabase).forEach(key => {
+        const u = unitsDatabase[key];
+        const opt1 = new Option(`${u.address} (${u.unitName})`, key);
+        const opt2 = new Option(`${u.address} (${u.unitName})`, key);
+        tenantSelect.add(opt1);
+        studioSelect.add(opt2);
+      });
     }
 
-    // Unit Selector inside Tenant View
-    function selectUnit(unit) {
-      const display = document.getElementById('tenant-unit-display');
-      const btnMain = document.getElementById('tab-main');
-      const btnBase = document.getElementById('tab-base');
-
-      if (unit === 'main') {
-        display.innerText = 'Edmonton, AB • Main Floor Suite';
-        btnMain.className = 'px-3 py-1 text-xs font-semibold rounded-md bg-indigo-600 text-white transition';
-        btnBase.className = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-400 hover:text-white transition';
-      } else {
-        display.innerText = 'Edmonton, AB • Basement Suite';
-        btnBase.className = 'px-3 py-1 text-xs font-semibold rounded-md bg-indigo-600 text-white transition';
-        btnMain.className = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-400 hover:text-white transition';
-      }
+    // Dynamic Router: Update Tenant View
+    function loadTenantUnit(key) {
+      const u = unitsDatabase[key] || unitsDatabase['main'];
+      
+      document.getElementById('tenant-unit-select').value = key;
+      document.getElementById('portal-address').innerText = u.address;
+      document.getElementById('portal-unit-name').innerText = `Edmonton, AB • ${u.unitName}`;
+      document.getElementById('portal-water').innerText = u.water;
+      document.getElementById('portal-breaker').innerText = u.breaker;
+      document.getElementById('portal-garbage').innerText = u.garbage;
+      document.getElementById('portal-filter').innerText = u.filter;
     }
 
-    // Print Studio Selector with Dynamic QR Target
-    function setPrintUnit(unitLabel, unitKey) {
-      document.getElementById('sticker-unit-label').innerText = unitLabel;
+    // Dynamic Print Studio Generator
+    function updateStickerPreview(key) {
+      const u = unitsDatabase[key] || unitsDatabase['main'];
+
+      document.getElementById('sticker-address').innerText = u.address;
+      document.getElementById('sticker-unit-label').innerText = u.unitName;
+      document.getElementById('sticker-filter').innerText = u.filter;
+      document.getElementById('sticker-garbage').innerText = u.garbage;
+      document.getElementById('sticker-water').innerText = u.water;
+
+      // Update QR Code target URL to specific unit parameter
       const qrImg = document.getElementById('sticker-qr-img');
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://tenantqr.ca?unit=${unitKey}`;
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://tenantqr.ca?unit=${key}`;
+    }
 
-      const btnMain = document.getElementById('print-tab-main');
-      const btnBase = document.getElementById('print-tab-base');
+    // Navigation Switcher
+    function switchView(view) {
+      document.getElementById('view-tenant').classList.add('hidden');
+      document.getElementById('view-studio').classList.add('hidden');
 
-      if (unitKey === 'main') {
-        btnMain.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white';
-        btnBase.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300';
+      document.getElementById('btn-view-tenant').className = 'px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700';
+      document.getElementById('btn-view-studio').className = 'px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700';
+
+      if (view === 'tenant') {
+        document.getElementById('view-tenant').classList.remove('hidden');
+        document.getElementById('btn-view-tenant').className = 'px-3 py-1.5 rounded-md bg-indigo-600 text-white';
       } else {
-        btnBase.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white';
-        btnMain.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300';
+        document.getElementById('view-studio').classList.remove('hidden');
+        document.getElementById('btn-view-studio').className = 'px-3 py-1.5 rounded-md bg-indigo-600 text-white';
+        updateStickerPreview(document.getElementById('studio-unit-select').value);
       }
     }
 
     function submitTicket(e) {
       e.preventDefault();
-      alert("Maintenance request submitted to landlord!");
+      const currentUnit = document.getElementById('tenant-unit-select').value;
+      alert(`Maintenance request for [${unitsDatabase[currentUnit].unitName}] submitted to landlord!`);
       e.target.reset();
     }
   </script>
