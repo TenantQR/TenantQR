@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TenantQR - Property Management Portal</title>
+  <title>TenantQR | Smart QR Physical Guides for Rental Properties</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -21,12 +21,13 @@
   <!-- Top Navigation Bar -->
   <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50 no-print">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('landing')">
         <div class="bg-indigo-600 text-white font-bold p-1.5 rounded-lg text-sm tracking-wide">TQR</div>
         <span class="font-semibold text-lg tracking-tight">TenantQR</span>
       </div>
       <div class="flex gap-2 text-xs font-medium">
-        <button onclick="switchTab('tenant')" id="btn-tenant" class="px-3 py-1.5 rounded-md bg-indigo-600 text-white">Tenant Mobile View</button>
+        <button onclick="switchTab('landing')" id="btn-landing" class="px-3 py-1.5 rounded-md bg-indigo-600 text-white">Home & Info</button>
+        <button onclick="switchTab('tenant')" id="btn-tenant" class="px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700">Tenant View</button>
         <button onclick="switchTab('inspection')" id="btn-inspection" class="px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700">Inspection Form</button>
         <button onclick="switchTab('landlord')" id="btn-landlord" class="px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700">Landlord Portal</button>
       </div>
@@ -35,8 +36,131 @@
 
   <main class="max-w-7xl mx-auto px-4 py-6">
 
+    <!-- 0. PUBLIC MARKETING LANDING PAGE -->
+    <section id="view-landing" class="space-y-16 py-8">
+      
+      <!-- Hero Banner -->
+      <div class="text-center max-w-3xl mx-auto space-y-4">
+        <span class="inline-block bg-indigo-900/60 border border-indigo-700/60 text-indigo-300 text-xs px-3 py-1 rounded-full font-medium">
+          🇨🇦 Designed for Independent Landlords
+        </span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          Stop Answering Late-Night Calls About Furnace Filter Sizes.
+        </h1>
+        <p class="text-slate-400 text-base md:text-lg">
+          Equip your rental properties with durable QR vinyl stickers. Tenants get instant smartphone access to water shutoffs, maintenance specs, and move-in reports—without downloading an app.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 pt-2">
+          <button onclick="switchTab('landlord')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-indigo-600/30">
+            Try Interactive App Demo →
+          </button>
+          <a href="#pricing" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm px-6 py-3 rounded-xl border border-slate-700 transition">
+            View Pricing Plans
+          </a>
+        </div>
+      </div>
+
+      <!-- Feature Grid -->
+      <div class="grid md:grid-cols-3 gap-6 pt-6 border-t border-slate-800">
+        <div class="bg-slate-800/60 border border-slate-700/80 p-5 rounded-2xl space-y-2">
+          <div class="text-indigo-400 text-xl font-bold">🛠️ Emergency & Utility Guides</div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Clearly points tenants to main water shutoffs, electrical breaker panels, and garbage schedules before minor issues turn into costly emergency calls.
+          </p>
+        </div>
+        <div class="bg-slate-800/60 border border-slate-700/80 p-5 rounded-2xl space-y-2">
+          <div class="text-indigo-400 text-xl font-bold">📐 Exact Property Specs</div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Save exact furnace filter dimensions (<code class="text-indigo-300">16 x 25 x 1 in</code>) and appliance details directly in the tenant portal for zero confusion.
+          </p>
+        </div>
+        <div class="bg-slate-800/60 border border-slate-700/80 p-5 rounded-2xl space-y-2">
+          <div class="text-indigo-400 text-xl font-bold">📋 Digital Turnover Reports</div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Record move-in and move-out condition inspections with photo notes to streamline security deposit returns and protect your physical investment.
+          </p>
+        </div>
+      </div>
+
+      <!-- How It Works Section -->
+      <div class="bg-slate-800/40 border border-slate-800 p-8 rounded-3xl space-y-6 text-center">
+        <h2 class="text-2xl font-bold text-white">How TenantQR Works in 3 Easy Steps</h2>
+        <div class="grid md:grid-cols-3 gap-6 text-left">
+          <div class="space-y-2">
+            <span class="text-2xl font-black text-indigo-500">01</span>
+            <h3 class="text-sm font-bold text-white">Set Up Property Online</h3>
+            <p class="text-xs text-slate-400">Log into your Landlord Portal and enter utility locations, filter sizes, and property rules in under two minutes.</p>
+          </div>
+          <div class="space-y-2">
+            <span class="text-2xl font-black text-indigo-500">02</span>
+            <h3 class="text-sm font-bold text-white">Apply Vinyl Sticker</h3>
+            <p class="text-xs text-slate-400">Stick your custom commercial-grade QR badge inside a kitchen cabinet or near the main furnace casing.</p>
+          </div>
+          <div class="space-y-2">
+            <span class="text-2xl font-black text-indigo-500">03</span>
+            <h3 class="text-sm font-bold text-white">Instant Tenant Access</h3>
+            <p class="text-xs text-slate-400">Tenants scan the sticker with their phone camera to view guides or submit maintenance tickets directly to you.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing Section -->
+      <div id="pricing" class="space-y-6 text-center pt-4">
+        <h2 class="text-2xl font-bold text-white">Simple, Landlord-Friendly Pricing</h2>
+        <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
+          
+          <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl flex flex-col justify-between">
+            <div class="space-y-3">
+              <h3 class="text-base font-bold text-white">Starter</h3>
+              <div class="text-2xl font-black text-white">$0 <span class="text-xs text-slate-400 font-normal">/ month</span></div>
+              <p class="text-xs text-slate-400">Pay-as-you-go vinyl stickers for single rental units.</p>
+              <ul class="text-xs text-slate-300 space-y-2 pt-2">
+                <li>✓ 1 Property Unit</li>
+                <li>✓ Digital Tenant Guide</li>
+                <li>✓ Emergency Utility Locations</li>
+              </ul>
+            </div>
+            <button onclick="switchTab('landlord')" class="mt-6 w-full bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold py-2.5 rounded-lg transition">Start Free</button>
+          </div>
+
+          <div class="bg-slate-800 border-2 border-indigo-500 p-6 rounded-2xl flex flex-col justify-between relative shadow-xl shadow-indigo-500/10">
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full">Most Popular</span>
+            <div class="space-y-3">
+              <h3 class="text-base font-bold text-white">Pro Landlord</h3>
+              <div class="text-2xl font-black text-white">$12 <span class="text-xs text-slate-400 font-normal">/ month</span></div>
+              <p class="text-xs text-slate-400">Perfect for multi-unit landlords managing up to 5 properties.</p>
+              <ul class="text-xs text-slate-300 space-y-2 pt-2">
+                <li>✓ Up to 5 Properties</li>
+                <li>✓ Unlimited Maintenance Tickets</li>
+                <li>✓ Move-In / Move-Out Reports</li>
+                <li>✓ Free Replacement Stickers</li>
+              </ul>
+            </div>
+            <button onclick="switchTab('landlord')" class="mt-6 w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold py-2.5 rounded-lg transition">Try Demo App</button>
+          </div>
+
+          <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl flex flex-col justify-between">
+            <div class="space-y-3">
+              <h3 class="text-base font-bold text-white">Portfolio</h3>
+              <div class="text-2xl font-black text-white">$29 <span class="text-xs text-slate-400 font-normal">/ month</span></div>
+              <p class="text-xs text-slate-400">For growing portfolios and small property management teams.</p>
+              <ul class="text-xs text-slate-300 space-y-2 pt-2">
+                <li>✓ Up to 20 Properties</li>
+                <li>✓ All Pro Features Included</li>
+                <li>✓ Bulk Vinyl Sticker Packs</li>
+                <li>✓ Multi-User Access</li>
+              </ul>
+            </div>
+            <button onclick="switchTab('landlord')" class="mt-6 w-full bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold py-2.5 rounded-lg transition">Contact Portfolio Sales</button>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
     <!-- 1. TENANT MOBILE VIEW -->
-    <section id="view-tenant" class="space-y-6">
+    <section id="view-tenant" class="hidden space-y-6">
       <div class="max-w-md mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl">
         <div class="text-center pb-4 border-b border-slate-700">
           <span class="text-xs uppercase font-semibold text-indigo-400 tracking-wider">Property Guide</span>
@@ -74,7 +198,6 @@
           </div>
         </div>
 
-        <!-- Maintenance Ticket Form -->
         <div class="mt-6 pt-4 border-t border-slate-700">
           <h2 class="text-sm font-semibold text-white mb-2">Submit Maintenance Request</h2>
           <form id="ticket-form" onsubmit="submitTicket(event)" class="space-y-3">
@@ -139,7 +262,6 @@
     <section id="view-landlord" class="hidden space-y-6">
       <div class="grid md:grid-cols-3 gap-6">
         
-        <!-- Editable Property Details Panel -->
         <div class="md:col-span-2 bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl space-y-4">
           <div class="flex justify-between items-center border-b border-slate-700 pb-3">
             <h2 class="text-base font-bold text-white">Unit Settings & Info</h2>
@@ -182,7 +304,6 @@
           <div id="save-status" class="text-xs text-emerald-400 hidden">✓ Saved directly to Supabase Database!</div>
         </div>
 
-        <!-- QR Sticker Studio Panel -->
         <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
           <div>
             <h2 class="text-base font-bold text-white mb-1">QR Sticker Print Studio</h2>
@@ -192,7 +313,6 @@
               <p class="text-xs font-bold uppercase tracking-widest text-slate-500">Unit #101 Guide</p>
               <p class="text-sm font-extrabold tracking-tight text-slate-900">SCAN FOR MAINTENANCE & EMERGENCY INFO</p>
               
-              <!-- QR Code Placeholder graphic -->
               <div class="w-32 h-32 mx-auto bg-slate-900 text-white rounded-xl flex items-center justify-center p-2">
                 <div class="border-2 border-dashed border-slate-500 w-full h-full flex flex-col items-center justify-center text-[10px] font-mono">
                   <span>[ QR CODE ]</span>
@@ -215,38 +335,57 @@
   </main>
 
   <script>
-    // ----------------------------------------------------
-    // SUPABASE SETUP (Insert your secret key below)
-    // ----------------------------------------------------
     const SUPABASE_URL = "https://eqsijapfdqqtbmdcimfq.supabase.co";
-    const SUPABASE_ANON_KEY = "PASTE_YOUR_ANON_PUBLIC_KEY_HERE";
-    
-    // Initialize Supabase Client
-    const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+    const SUPABASE_ANON_KEY = "sb_publishable_xd999fPxTh4kSSyeo1gRg_Gkyc4..."; // Replace with your key
 
-    // Tab Switching Logic
+    let supabase = null;
+    try {
+      if (window.supabase && SUPABASE_ANON_KEY) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch (e) {
+      console.warn("Supabase defer:", e);
+    }
+
     function switchTab(tab) {
-      document.getElementById('view-tenant').classList.add('hidden');
-      document.getElementById('view-inspection').classList.add('hidden');
-      document.getElementById('view-landlord').classList.add('hidden');
+      const vLanding = document.getElementById('view-landing');
+      const vTenant = document.getElementById('view-tenant');
+      const vInspect = document.getElementById('view-inspection');
+      const vLandlord = document.getElementById('view-landlord');
 
-      document.getElementById('btn-tenant').className = 'px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700';
-      document.getElementById('btn-inspection').className = 'px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700';
-      document.getElementById('btn-landlord').className = 'px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700';
+      if (vLanding) vLanding.classList.add('hidden');
+      if (vTenant) vTenant.classList.add('hidden');
+      if (vInspect) vInspect.classList.add('hidden');
+      if (vLandlord) vLandlord.classList.add('hidden');
 
-      if (tab === 'tenant') {
-        document.getElementById('view-tenant').classList.remove('hidden');
-        document.getElementById('btn-tenant').className = 'px-3 py-1.5 rounded-md bg-indigo-600 text-white';
-      } else if (tab === 'inspection') {
-        document.getElementById('view-inspection').classList.remove('hidden');
-        document.getElementById('btn-inspection').className = 'px-3 py-1.5 rounded-md bg-indigo-600 text-white';
-      } else if (tab === 'landlord') {
-        document.getElementById('view-landlord').classList.remove('hidden');
-        document.getElementById('btn-landlord').className = 'px-3 py-1.5 rounded-md bg-indigo-600 text-white';
+      const bLanding = document.getElementById('btn-landing');
+      const bTenant = document.getElementById('btn-tenant');
+      const bInspect = document.getElementById('btn-inspection');
+      const bLandlord = document.getElementById('btn-landlord');
+
+      const inactiveStyle = 'px-3 py-1.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700';
+      const activeStyle = 'px-3 py-1.5 rounded-md bg-indigo-600 text-white';
+
+      if (bLanding) bLanding.className = inactiveStyle;
+      if (bTenant) bTenant.className = inactiveStyle;
+      if (bInspect) bInspect.className = inactiveStyle;
+      if (bLandlord) bLandlord.className = inactiveStyle;
+
+      if (tab === 'landing' && vLanding && bLanding) {
+        vLanding.classList.remove('hidden');
+        bLanding.className = activeStyle;
+      } else if (tab === 'tenant' && vTenant && bTenant) {
+        vTenant.classList.remove('hidden');
+        bTenant.className = activeStyle;
+      } else if (tab === 'inspection' && vInspect && bInspect) {
+        vInspect.classList.remove('hidden');
+        bInspect.className = activeStyle;
+      } else if (tab === 'landlord' && vLandlord && bLandlord) {
+        vLandlord.classList.remove('hidden');
+        bLandlord.className = activeStyle;
       }
     }
 
-    // Save Landlord Changes to Database & Live Preview
     async function savePropertyToSupabase() {
       const address = document.getElementById('input-address').value;
       const unit = document.getElementById('input-unit').value;
@@ -255,26 +394,41 @@
       const water = document.getElementById('input-water').value;
       const breaker = document.getElementById('input-breaker').value;
 
-      // Update Tenant View locally in real time
-      document.getElementById('tenant-address-display').innerText = address;
-      document.getElementById('tenant-unit-display').innerText = `Unit ${unit} • Digital Tenant Portal`;
-      document.getElementById('tenant-filter-display').innerText = filter;
-      document.getElementById('tenant-garbage-display').innerText = garbage;
-      document.getElementById('tenant-water-display').innerText = water;
-      document.getElementById('tenant-breaker-display').innerText = breaker;
-
-      // Save to Supabase
-      if (supabase && SUPABASE_ANON_KEY !== sb_publishable_xd999fPwxTh4kSSyeo1gRg_Gkyc4xQc) {
-        const { data, error } = await supabase.from('properties').insert([
-          { address, unit_number: unit, filter_size: filter, garbage_day: garbage, water_shutoff: water, breaker_panel: breaker }
-        ]);
-        if (error) console.error("Supabase Error:", error);
+      if (document.getElementById('tenant-address-display')) {
+        document.getElementById('tenant-address-display').innerText = address;
+      }
+      if (document.getElementById('tenant-unit-display')) {
+        document.getElementById('tenant-unit-display').innerText = `Unit ${unit} • Digital Tenant Portal`;
+      }
+      if (document.getElementById('tenant-filter-display')) {
+        document.getElementById('tenant-filter-display').innerText = filter;
+      }
+      if (document.getElementById('tenant-garbage-display')) {
+        document.getElementById('tenant-garbage-display').innerText = garbage;
+      }
+      if (document.getElementById('tenant-water-display')) {
+        document.getElementById('tenant-water-display').innerText = water;
+      }
+      if (document.getElementById('tenant-breaker-display')) {
+        document.getElementById('tenant-breaker-display').innerText = breaker;
       }
 
-      // Show temporary save message
+      if (supabase) {
+        try {
+          const { error } = await supabase.from('properties').insert([
+            { address, unit_number: unit, filter_size: filter, garbage_day: garbage, water_shutoff: water, breaker_panel: breaker }
+          ]);
+          if (error) console.error("Supabase Save Error:", error);
+        } catch (e) {
+          console.error("Database call failed:", e);
+        }
+      }
+
       const status = document.getElementById('save-status');
-      status.classList.remove('hidden');
-      setTimeout(() => status.classList.add('hidden'), 3000);
+      if (status) {
+        status.classList.remove('hidden');
+        setTimeout(() => status.classList.add('hidden'), 3000);
+      }
     }
 
     function submitTicket(e) {
