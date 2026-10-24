@@ -113,13 +113,13 @@
       <div class="max-w-xl mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl space-y-6">
         <div>
           <h2 class="text-lg font-bold text-white">🖨️ Printable QR Sticker Studio</h2>
-          <p class="text-xs text-slate-400">Print custom QR sticker cards to place in kitchen cabinets or utility areas at 15103 95 St NW.</p>
+          <p class="text-xs text-slate-400">Print custom QR sticker cards with direct unit links for 15103 95 St NW.</p>
         </div>
 
         <!-- Selection for which sticker to print -->
         <div class="flex gap-2 border-b border-slate-700 pb-4">
-          <button id="print-tab-main" onclick="setPrintUnit('Main Floor Suite')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">Main Floor Sticker</button>
-          <button id="print-tab-base" onclick="setPrintUnit('Basement Suite')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300">Basement Suite Sticker</button>
+          <button id="print-tab-main" onclick="setPrintUnit('Main Floor Suite', 'main')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">Main Floor Sticker</button>
+          <button id="print-tab-base" onclick="setPrintUnit('Basement Suite', 'basement')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300">Basement Suite Sticker</button>
         </div>
 
         <!-- Printable Card Preview -->
@@ -131,8 +131,8 @@
           </div>
 
           <div class="py-2">
-            <!-- QR code points directly to your official custom domain -->
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://tenantqr.ca" alt="TenantQR Code" class="w-36 h-36 mx-auto rounded-lg border border-slate-200 p-1 shadow-sm">
+            <!-- QR code dynamically changes based on selected print unit -->
+            <img id="sticker-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://tenantqr.ca?unit=main" alt="TenantQR Code" class="w-36 h-36 mx-auto rounded-lg border border-slate-200 p-1 shadow-sm">
             <p class="text-[10px] font-bold text-slate-500 mt-2">SCAN WITH PHONE CAMERA</p>
           </div>
 
@@ -154,6 +154,17 @@
   </main>
 
   <script>
+    // Automatically select the correct unit if loaded via ?unit= parameter
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const unit = urlParams.get('unit');
+      if (unit === 'basement') {
+        selectUnit('basement');
+      } else {
+        selectUnit('main');
+      }
+    });
+
     // Tab Navigation
     function switchTab(tab) {
       document.getElementById('view-tenant').classList.add('hidden');
@@ -188,13 +199,16 @@
       }
     }
 
-    // Print Studio Selector
-    function setPrintUnit(unitLabel) {
+    // Print Studio Selector with Dynamic QR Target
+    function setPrintUnit(unitLabel, unitKey) {
       document.getElementById('sticker-unit-label').innerText = unitLabel;
+      const qrImg = document.getElementById('sticker-qr-img');
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://tenantqr.ca?unit=${unitKey}`;
+
       const btnMain = document.getElementById('print-tab-main');
       const btnBase = document.getElementById('print-tab-base');
 
-      if (unitLabel === 'Main Floor Suite') {
+      if (unitKey === 'main') {
         btnMain.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white';
         btnBase.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300';
       } else {
